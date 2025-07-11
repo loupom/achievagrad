@@ -21,16 +21,20 @@ function formatYear(timestamp: number | undefined) {
 export default function GameCard({ game, onRemove }: GameCardProps) {
   return (
     <div className="border rounded-xl p-4 shadow hover:shadow-lg transition relative">
-      {game.cover?.image_id && (
+      {game.cover?.image_id ? (
         <img
           src={getCoverUrl(game.cover.image_id)}
           alt={`Cover of ${game.name}`}
           className="w-full h-48 object-cover rounded"
         />
+      ) : (
+        <div className="w-full h-48 flex items-center justify-center rounded border bg-gray-100 text-3xl">
+          🎮
+        </div>
       )}
       <h2 className="text-lg font-semibold mt-2">{game.name}</h2>
       <p className="text-sm text-gray-500">
-        {game.genres?.map((g) => g.name).join(', ') || 'Genre inconnu'}
+        {game.genres?.map((g) => g.name).join(', ') || 'Unknown genre'}
       </p>
       <p className="text-sm text-gray-400">{formatYear(game.first_release_date)}</p>
 
@@ -39,7 +43,7 @@ export default function GameCard({ game, onRemove }: GameCardProps) {
           onClick={onRemove}
           className="absolute top-2 right-2 text-sm bg-red-500 text-white px-2 py-1 rounded"
         >
-          Retirer
+          Remove
         </button>
       )}
     </div>

@@ -7,13 +7,11 @@ import GameCard from '../components/GameCard'
 export default function Home() {
   const [pile, setPile] = useState<any[]>([])
 
-  // charger depuis localStorage au démarrage
   useEffect(() => {
     const saved = localStorage.getItem('pileOfShame')
     if (saved) setPile(JSON.parse(saved))
   }, [])
 
-  // enregistrer dans localStorage à chaque changement
   useEffect(() => {
     localStorage.setItem('pileOfShame', JSON.stringify(pile))
   }, [pile])
@@ -34,11 +32,14 @@ export default function Home() {
       <SearchBar onSelect={handleSelect} />
 
       {pile.length > 0 && (
-        <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          {pile.map((game) => (
-            <GameCard key={game.id} game={game} onRemove={() => removeGame(game.id)} />
-          ))}
-        </section>
+        <>
+          <h2 className="text-xl font-semibold">🗂️ Pile of Shame</h2>
+          <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            {pile.map((game) => (
+              <GameCard key={game.id} game={game} onRemove={() => removeGame(game.id)} />
+            ))}
+          </section>
+        </>
       )}
     </main>
   )
